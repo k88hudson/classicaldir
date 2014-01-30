@@ -50,10 +50,10 @@
       </div>
 
       <ul class="list-group">
-        <li ng-repeat="listing in listingResults = (listings | filter:textSearch)" class="list-group-item">
+        <li ng-repeat="listing in listingResults = (listings | filter:textSearch | filter:betweenDates | orderBy:date )" class="list-group-item">
           <hgroup class="clearfix">
             <div class="pull-left hidden-xs" ng-show="listing.image">
-              <div ng-show="listing.image" class="listing-image" style="background-image:url({{ listing.image }})"></div>
+              <div ng-show="listing.picture" class="listing-image" style="background-image:url({{ listing.picture }})"></div>
             </div>
             <div>
               <h5>{{ listing.date | date:'EEEE, MMMM d' }} {{ listing.date | date:'shortTime' }}</h5>

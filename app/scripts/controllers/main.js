@@ -147,6 +147,18 @@ angular.module('classicaldirApp')
 
     $scope.monthText = 'January';
 
+    // Filter
+
+    $scope.betweenDates = function (listing) {
+      if ($scope.startDate && listing.date < $scope.startDate) {
+        return false;
+      }
+      if ($scope.endDate && listing.date > $scope.endDate) {
+        return false;
+      }
+      return true;
+    };
+
     $http
       .get(serviceConfig.url + '/listings')
       .success(function(data) {
