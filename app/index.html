@@ -36,6 +36,9 @@
             <li ng-class="{ active : isActive('/add') }"><a href="#add">Add a listing</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li ng-cloak ng-hide="user.email"><a ng-click="login()">Login</a></li>
+            <li ng-cloak ng-show="user.email"><a>Hello, {{user.email}}</a></li>
+            <li ng-cloak ng-show="user.email"><a ng-click="logout()">Logout</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div>
@@ -44,8 +47,6 @@
 
     <div ng-view=""></div>
 
-    <div class="wm-footer"></div>
-
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
@@ -53,6 +54,9 @@
       g.src='//www.google-analytics.com/ga.js';
       s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
+
+    <script src="https://login.persona.org/include.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -65,7 +69,6 @@
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
         <script src='bower_components/underscore/underscore-min.js'></script>
         <script src='bower_components/angular-google-maps/dist/angular-google-maps.js'></script>
 

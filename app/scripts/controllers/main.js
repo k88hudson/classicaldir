@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('classicaldirApp')
-  .controller('navigationController', function($scope, $location) {
+  .controller('navigationController', function($scope, $location, personaService) {
     $scope.isActive = function(path) {
       return path === $location.path();
     };
