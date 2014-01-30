@@ -1,0 +1,71 @@
+<div class="container">
+  <h1 class="page-header">Listings for {{ monthText }}</h1>
+
+  <form role="form" class="row">
+    <div class="form-group col-sm-6">
+      <label for="search">Search</label>
+       <input
+        type="text"
+        class="form-control"
+        name="textSearch"
+        ng-model="textSearch">
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="startDate">Start date</label>
+      <p class="input-group">
+         <input
+          type="text"
+          class="form-control"
+          show-weeks="false"
+          datepicker-popup="dd-MMMM-yyyy"
+          ng-model="startDate"
+          is-open="opened.startDate"
+          close-text="close">
+         <span class="input-group-btn">
+           <button class="btn btn-default" ng-click="open($event, 'startDate')"><i class="fa fa-calendar"></i></button>
+         </span>
+       </p>
+    </div>
+    <div class="form-group col-sm-3">
+      <label for="endDate">End date</label>
+      <p class="input-group">
+         <input
+          type="text"
+          class="form-control"
+          show-weeks="false"
+          datepicker-popup="dd-MMMM-yyyy"
+          ng-model="endDate"
+          is-open="opened.endDate"
+          close-text="close">
+         <span class="input-group-btn">
+           <button class="btn btn-default" ng-click="open($event, 'endDate')"><i class="fa fa-calendar"></i></button>
+         </span>
+       </p>
+    </div>
+  </form>
+
+  <div ng-show="!listingResults.length" class="alert alert-info">
+    No listings found.
+  </div>
+  <ul class="list-group">
+    <li ng-repeat="listing in listingResults = (listings | filter:textSearch)" class="list-group-item">
+      <div class="row">
+        <div class="col-xs-10 col-sm-9">
+          <hgroup>
+            <h5>{{ listing.date }}, {{ listing.time }}</h5>
+            <h2>{{ listing.title }}</h2>
+          </hgroup>
+
+          <p class="text-muted">{{ listing.description }}</p>
+
+          <p>{{ listing.programme }}</p>
+
+          <p>Tickets: <strong>{{ listing.price }}</strong>, {{ listing.specialPrice }}</p>
+        </div>
+        <div ng-show="listing.image" class="listing-image col-xs-2 col-sm-3 " style="background-image:url({{ listing.image }})">
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</div>

@@ -1,0 +1,189 @@
+<div class="container">
+  <h1 class="page-header">Add a Listing</h1>
+
+  <form role="form" class="row">
+
+    <div class="col-sm-6">
+      <h3 class="page-header">Basic Information</h3>
+
+      <div class="form-group">
+        <label for="title">Title</label>
+         <input
+          type="text"
+          class="form-control"
+          name="title"
+          ng-model="title"
+          placeholder="My Concert">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+         <input
+          type="text"
+          class="form-control"
+          name="description"
+          ng-model="description"
+          placeholder="A collection of music from 1600-1800">
+      </div>
+
+      <div class="form-group">
+        <label for="programme">Programme notes</label>
+         <textarea
+          type="text"
+          class="form-control"
+          name="programme"
+          ng-model="programme"
+          placeholder="Mozart Concerto No. 13 and other Classical works"></textarea>
+      </div>
+
+      <div class="form-group">
+        <h3 class="page-header">Ticketing</h3>
+      </div>
+
+      <div class="row">
+
+        <div class="form-group col-sm-4">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="pwyc" ng-model="pwyc"> Pay what you can
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="free" ng-model="free"> Free
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label for="price" ng-class="{'text-muted': pwyc || free }">Standard ticket price</label>
+           <input
+            type="text"
+            class="form-control"
+            name="price"
+            ng-model="price"
+            placeholder="$40"
+            ng-disabled="pwyc || free">
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label for="price" ng-class="{'text-muted': pwyc || free }">Special ticket price</label>
+           <input
+            type="text"
+            class="form-control"
+            name="specialPrice"
+            ng-model="specialPrice"
+            placeholder="$25 students/seniors"
+            ng-disabled="pwyc || free">
+        </div>
+
+        <div class="form-group offst-sm-4 col-sm-8">
+          <label for="price">Phone number</label>
+           <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            ng-model="phoneNumber"
+            placeholder="647-293-8322">
+        </div>
+      </div>
+
+    </div>
+    <!-- basic -->
+
+ <!--    <div class="col-sm-12">
+      <h3 class="page-header">Performers</h3>
+    </div>
+
+    <div class="form-group col-sm-12">
+      <div class="row">
+        <label class="col-xs-6 col-sm-8">Performer/Ensemble</label>
+        <label class="col-xs-6 col-sm-4">Instrument</label>
+      </div>
+      <div class="row">
+        <div class="form-group col-xs-6 col-sm-8">
+          <input
+           type="text"
+           class="form-control"
+           name="performer.name"
+           ng-model="performer.name">
+        </div>
+        <div class="form-group col-xs-6 col-sm-4">
+          <input
+          type="text"
+          class="form-control"
+          name="performer.instrument"
+          ng-model="performer.instrument"
+          typeahead="instrument for instrument in instruments | filter:$viewValue | limitTo:8">
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary"><span class="fa fa-plus"></span> Add performer/ensemble</button>
+      </div>
+    </div> -->
+
+    <div class="col-sm-5 col-sm-offset-1">
+      <h3 class="page-header">Date, Location</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label for="date">Date</label>
+          <p class="input-group">
+             <input
+              type="text"
+              class="form-control"
+              show-weeks="false"
+              datepicker-popup="MMMM dd yyyy"
+              min="today"
+              ng-model="date"
+              is-open="opened.date"
+              close-text="close">
+             <span class="input-group-btn">
+               <button class="btn btn-default" ng-click="open($event, 'date')"><i class="fa fa-calendar"></i></button>
+             </span>
+           </p>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="time">Time</label>
+          <div ng-model="time">
+            <timepicker hour-step="1" minute-step="30" show-meridian="true"></timepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-12">
+          <label for="venue">Venue</label>
+           <input
+            type="text"
+            class="form-control"
+            name="venue"
+            ng-model="venue"
+            placeholder="Roy Thompson Hall">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="programme">Address</label>
+           <input
+            type="text"
+            class="form-control"
+            name="address"
+            ng-model="address"
+            placeholder="12 John Street">
+        </div>
+        <div class="form-group col-sm-12">
+          <google-map center='map.center' zoom='map.zoom' draggable='true'>
+            <marker coords='map.center'></marker>
+          </google-map>
+        </div>
+      </div>
+
+    </div> <!-- date location -->
+
+    <div class="page-header">
+      <button class="btn btn-primary btn-lg">Create my listing</button>
+    </div>
+
+
+  </form>
+
+</div>

@@ -1,0 +1,25 @@
+body {
+    padding-top: 50px;
+}
+
+.calendar-picker td {
+    border: 1px solid #EEE;
+}
+
+.calendar-picker .btn-default {
+    border: none;
+}
+
+.calendar-picker .btn-default:hover {
+    background: #EEE;
+}
+
+.angular-google-map-container { height: 400px; }
+
+
+.listing-image {
+    height: 0;
+    padding-bottom: 25%;
+    background-position: center;
+    background-size: cover;
+}

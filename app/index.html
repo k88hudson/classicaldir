@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- build:css({.tmp,app}) styles/main.css -->
+        <link rel="stylesheet" href="bower_components/makerstrap/makerstrap.complete.min.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+</head>
+  <body ng-app="classicaldirApp">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="navigationController">
+
+      <div class="container">
+
+        <div class="navbar-header">
+
+          <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="fa fa-bars fa-fw"></span>
+          </button>
+
+          <a class="navbar-brand" scroll-to>Classical Music Listings</a>
+
+        </div>
+
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+          <ul class="nav navbar-nav">
+            <li ng-class="{ active : isActive('/') }"><a href="#">Toronto/GTA</a></li>
+            <li ng-class="{ active : isActive('/add') }"><a href="/#add">Add a listing</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+
+
+    <div ng-view=""></div>
+
+    <div class="wm-footer"></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src='//www.google-analytics.com/ga.js';
+      s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+
+        <!-- build:js scripts/modules.js -->
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+        <script src='bower_components/underscore/underscore-min.js'></script>
+        <script src='bower_components/angular-google-maps/dist/angular-google-maps.js'></script>
+
+        <script>
+          angular.module("template/datepicker/datepicker.html", []).run(["$templateCache", function($templateCache) {
+            $templateCache.put("template/datepicker/datepicker.html",
+              "<table class=\"calendar-picker\">\n" +
+              "  <thead>\n" +
+              "    <tr>\n" +
+              "      <th><button type=\"button\" class=\"btn btn-default btn-sm pull-left\" ng-click=\"move(-1)\"><i class=\"fa fa-chevron-left\"></i></button></th>\n" +
+              "      <th colspan=\"{{rows[0].length - 2 + showWeekNumbers}}\"><button type=\"button\" class=\"btn btn-default btn-sm btn-block\" ng-click=\"toggleMode()\"><strong>{{title}}</strong></button></th>\n" +
+              "      <th><button type=\"button\" class=\"btn btn-default btn-sm pull-right\" ng-click=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button></th>\n" +
+              "    </tr>\n" +
+              "    <tr ng-show=\"labels.length > 0\" class=\"h6\">\n" +
+              "      <th ng-show=\"showWeekNumbers\" class=\"text-center\">#</th>\n" +
+              "      <th ng-repeat=\"label in labels\" class=\"text-center\">{{label}}</th>\n" +
+              "    </tr>\n" +
+              "  </thead>\n" +
+              "  <tbody>\n" +
+              "    <tr ng-repeat=\"row in rows\">\n" +
+              "      <td ng-repeat=\"dt in row\" class=\"text-center\">\n" +
+              "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default btn-sm\" ng-class=\"{'btn-info': dt.selected}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\"><span ng-class=\"{'text-muted': dt.secondary}\">{{dt.label}}</span></button>\n" +
+              "      </td>\n" +
+              "    </tr>\n" +
+              "  </tbody>\n" +
+              "</table>\n" +
+              "");
+          }]);
+          angular.module("template/timepicker/timepicker.html", []).run(["$templateCache", function($templateCache) {
+            $templateCache.put("template/timepicker/timepicker.html",
+              "<table>\n" +
+              " <tbody>\n" +
+              "   <tr>\n" +
+              "     <td style=\"width:50px;\" class=\"form-group\" ng-class=\"{'has-error': invalidHours}\">\n" +
+              "       <input type=\"text\" ng-model=\"hours\" ng-change=\"updateHours()\" class=\"form-control text-center\" ng-mousewheel=\"incrementHours()\" ng-readonly=\"readonlyInput\" maxlength=\"2\">\n" +
+              "     </td>\n" +
+              "     <td>:</td>\n" +
+              "     <td style=\"width:50px;\" class=\"form-group\" ng-class=\"{'has-error': invalidMinutes}\">\n" +
+              "       <input type=\"text\" ng-model=\"minutes\" ng-change=\"updateMinutes()\" class=\"form-control text-center\" ng-readonly=\"readonlyInput\" maxlength=\"2\">\n" +
+              "     </td>\n" +
+              "     <td ng-show=\"showMeridian\"><button type=\"button\" class=\"btn btn-default text-center\" ng-click=\"toggleMeridian()\">{{meridian}}</button></td>\n" +
+              "   </tr>\n" +
+              " </tbody>\n" +
+              "</table>\n" +
+              "");
+          }]);
+        </script>
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
