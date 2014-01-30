@@ -1,0 +1,23 @@
+<div class="container">
+  <h1 class="page-header">
+    <a href="/">Listings</a> / {{listing.title}}
+  </h1>
+  <hgroup class="clearfix">
+    <div class="pull-left hidden-xs" ng-show="listing.image">
+      <div ng-show="listing.image" class="listing-image" style="background-image:url({{ listing.image }})"></div>
+    </div>
+    <div>
+      <h5>{{ listing.date | date:'EEEE, MMMM d' }} {{ listing.date | date:'shortTime' }}</h5>
+      <p class="text-muted">{{ listing.description }}</p>
+    </div>
+  </hgroup>
+
+  <div ng-show='listing.latitude'>
+    <google-map center='map.center' zoom='map.mapZoom' draggable='true' refresh='listing.latitude'>
+      <marker coords='map.center'></marker>
+    </google-map>
+  </div>
+
+  <p>{{ listing.programmeNotes }}</p>
+  <p>Tickets: <strong>{{ listing.ticketPrice }}</strong>, {{ listing.ticketSpecialPrice }}</p>
+</div>
