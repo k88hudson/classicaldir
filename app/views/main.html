@@ -41,8 +41,12 @@
     </div>
 
     <div class="col-sm-8">
-      <div ng-show="!listingResults.length" class="alert alert-info">
+      <div ng-show="!listingResults.length" class="alert alert-warning">
         No listings found.
+      </div>
+
+      <div ng-show="textSearch && listingResults.length" class="alert alert-warning">
+        {{listingResults.length}} listings found.
       </div>
 
       <ul class="list-group">
@@ -52,13 +56,15 @@
               <div ng-show="listing.image" class="listing-image" style="background-image:url({{ listing.image }})"></div>
             </div>
             <div>
-              <h5>{{ listing.date }}, {{ listing.time }}</h5>
-              <h2>{{ listing.title }}</h2>
+              <h5>{{ listing.date | date:'EEEE, MMMM d' }} {{ listing.date | date:'shortTime' }}</h5>
+              <h3><a href="#listings/{{ listing.id }}">
+                {{ listing.title }}  <small ng-show="listing.free">FREE</small>
+              </a></h3>
               <p class="text-muted">{{ listing.description }}</p>
             </div>
           </hgroup>
-          <p>{{ listing.programme }}</p>
-          <p>Tickets: <strong>{{ listing.price }}</strong>, {{ listing.specialPrice }}</p>
+          <p>{{ listing.programmeNotes }}</p>
+          <p>Tickets: <strong>{{ listing.ticketPrice }}</strong>, {{ listing.ticketSpecialPrice }}</p>
         </li>
       </ul>
     </div>

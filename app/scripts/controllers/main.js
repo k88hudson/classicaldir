@@ -6,7 +6,26 @@ angular.module('classicaldirApp')
       return path === $location.path();
     };
   })
-  .controller('AddCtrl', function($scope, $http) {
+  .controller('AccountCtrl', function($scope) {
+    $scope.isActive = function(path) {
+      return path === $location.path();
+    };
+  })
+  .controller('AddCtrl', function($scope, $http, $location) {
+
+    $scope.listing = {};
+
+    $scope.listing.datetime = function() {
+      var date = $scope.listing.date;
+      var time = $scope.time;
+      if (time.isPM && time.hours < 12) {
+        time.hours += 12;
+      }
+      var datetime = new Date(date);
+      datetime.setHours(time.hours, time.minutes);
+      console.log(date, time, datetime);
+      return datetime;
+    };
 
     var autocomplete = new google.maps.places.Autocomplete(document.querySelector('[name="address"]'));
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -25,14 +44,17 @@ angular.module('classicaldirApp')
       console.log($scope.map);
     });
 
-    $scope.today = new Date();
-
     $scope.map = {
       center: {
         latitude: 43.653226,
         longitude: -79.38318429999998
       },
       zoom: 12
+    };
+
+    $scope.today = new Date();
+    $scope.time = {
+      isPM: true
     };
 
     $scope.opened = {}
@@ -43,9 +65,66 @@ angular.module('classicaldirApp')
       $scope.opened[name] = !$scope.opened[name];
     };
 
+    // Submit all the data
+    $scope.submit = function() {
+
+      var newListingData = {
+        title: $scope.listing.title,
+        description: $scope.listing.description,
+        programmeNotes: $scope.listing.programmeNotes,
+        venue: $scope.listing.venue,
+        address: $scope.listing.address,
+        latitude: $scope.map.center.latitude,
+        longitude: $scope.map.center.longitude,
+        mapZoom: $scope.map.zoom,
+        date: $scope.listing.datetime(),
+        payWhatYouCan: $scope.listing.pwyc,
+        free: $scope.listing.free,
+        ticketPrice: $scope.listing.ticketPrice,
+        ticketSpecialPrice: $scope.listing.ticketSpecialPrice,
+        ticketPurchaseLink: $scope.listing.ticketPurchaseLink,
+        phoneNumber: $scope.listing.phoneNumber,
+        picture: $scope.listing.picture,
+        email: $scope.user.email,
+        contactName: $scope.listing.contactName
+      };
+
+      $http
+        .post('http://localhost:7878/listings', newListingData)
+        .success(function(data) {
+          $location.path('/listings/' + data.id);
+        })
+        .error(function(err) {
+          console.log(err);
+        });
+    };
+
   })
 
-  .controller('MainCtrl', function($scope) {
+  .controller('DetailsCtrl', function($scope, $http, $routeParams) {
+    $scope.map = {
+      center: {
+        latitude: 43.653226,
+        longitude: -79.38318429999998
+      },
+      mapZoom: 12
+    };
+
+    $http
+      .get('http://localhost:7878/listings/' + $routeParams.id)
+      .success(function(data) {
+        $scope.listing = data;
+        if (data.latitude && data.longitude) {
+          $scope.map.center = {
+            latitude: data.latitude,
+            longitude: data.longitude
+          };
+          $scope.map.mapZoom = data.mapZoom || 12;
+        }
+      });
+  })
+
+  .controller('MainCtrl', function($scope, $http) {
 
     // Filter
 
@@ -68,50 +147,9 @@ angular.module('classicaldirApp')
 
     $scope.monthText = 'January';
 
-    $scope.listings = [
-      {
-        date: 'January 1',
-        time: '1:00 PM',
-        title: 'Musicians in Ordinary',
-        description: 'A New Year’s Day Concert – French Baroque Cantatas and Sonatas',
-        programme: 'Viola ensemble',
-        venue: 'Heliconian Hall',
-        address: '35 Hazelton Ave.',
-        free: false,
-        pwyc: false,
-        price: '$15',
-        phone: '343-3432',
-        specialPrice: '$10 seniors',
-        image: 'http://canadianmusician.com/news/wp-content/uploads/2012/08/CM-Takes5-SO12-TSO1-by-Sian-Richards.jpg'
-      },
-      {
-        date: 'Sat. Jan. 11, 2014',
-        time: '1:00 PM',
-        title: 'Mozart Symphony 39',
-        description: 'A New Year’s Day Concert – French Baroque Cantatas and Sonatas',
-        programme: 'Mozart composed his final three symphonies (Nos. 39, 40, and 41) in an intense burst of creative brilliance. No. 39 is one of the most charming and witty in the entire cycle. Ignat Solzhenitsyn performs both as conductor and soloist in Mozart\'s charming Piano Concerto No. 18.',
-        venue: 'Roy Thomson Hall',
-        address: 'Simcoe St.',
-        free: false,
-        pwyc: false,
-        price: '$45-$150',
-        phone: ' 1.855.985.2787',
-        specialPrice: '$12 for under 35s',
-        image: 'http://files.tso.ca/Images/Artists/1314-Mozart39-IgnatSolzhenitsyn.jpg'
-      },
-      {
-        date: 'January 1',
-        time: '1:00 PM',
-        title: 'Whatever',
-        description: 'A New Year’s Day Concert – French Baroque Cantatas and Sonatas',
-        programme: 'Viola ensemble',
-        venue: 'Heliconian Hall',
-        address: '35 Hazelton Ave.',
-        free: false,
-        pwyc: false,
-        price: '$15',
-        phone: '343-3432',
-        specialPrice: '$10 seniors'
-      }
-    ];
+    $http
+      .get('http://localhost:7878/listings')
+      .success(function(data) {
+        $scope.listings = data;
+      });
   });

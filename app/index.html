@@ -37,7 +37,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li ng-cloak ng-hide="user.email"><a ng-click="login()">Login</a></li>
-            <li ng-cloak ng-show="user.email"><a>Hello, {{user.email}}</a></li>
+            <li ng-cloak ng-show="user.email"><a href="#account">Hi, {{user.email}}</a></li>
             <li ng-cloak ng-show="user.email"><a ng-click="logout()">Logout</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->

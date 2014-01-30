@@ -7,13 +7,41 @@ angular.module('classicaldirApp', ['ngRoute', 'ui.bootstrap', 'google-maps'])
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/listings/:id', {
+        templateUrl: 'views/details.html',
+        controller: 'DetailsCtrl'
+      })
       .when('/add', {
         templateUrl: 'views/add.html',
         controller: 'AddCtrl'
       })
+      .when('/account', {
+        templateUrl: 'views/account.html',
+        controller: 'AccountCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptor');
+  })
+  .factory('authInterceptor', function ($rootScope, $q, $window) {
+    return {
+      request: function (config) {
+        config.headers = config.headers || {};
+        if ($rootScope.user) {
+          config.headers.Authorization = 'Bearer ' + $rootScope.user.token;
+        }
+        return config;
+      },
+      response: function (response) {
+        if (response.status === 401) {
+          response.data = 'There was a problem with the authentication token -- maybe you are not signed in?';
+        }
+        return response || $q.when(response);
+      }
+    };
   })
   .factory('personaService', ['$http', '$q', '$rootScope', '$location', '$window',
     function personaService($http, $q, $rootScope, $location, $window) {
@@ -46,7 +74,7 @@ angular.module('classicaldirApp', ['ngRoute', 'ui.bootstrap', 'google-maps'])
           var audience = window.location.origin;
 
           $http
-            .post('http://webmaker-events-service.herokuapp.com/auth', {
+            .post('http://localhost:7878/auth', {
               audience: audience,
               assertion: assertion
             })

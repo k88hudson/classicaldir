@@ -25,3 +25,8 @@ body {
     background-position: center;
     background-size: cover;
 }
+
+
+.ng-invalid.ng-dirty {
+    border: 1px solid #DD1B16;
+}
