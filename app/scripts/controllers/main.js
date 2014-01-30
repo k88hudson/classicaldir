@@ -11,7 +11,7 @@ angular.module('classicaldirApp')
       return path === $location.path();
     };
   })
-  .controller('AddCtrl', function($scope, $http, $location) {
+  .controller('AddCtrl', function($scope, $http, $location, serviceConfig) {
 
     $scope.listing = {};
 
