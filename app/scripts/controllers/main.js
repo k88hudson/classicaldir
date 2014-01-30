@@ -1,5 +1,7 @@
 'use strict';
 
+var BASEURL = 'http://c-directory-service.herokuapp.com';
+
 angular.module('classicaldirApp')
   .controller('navigationController', function($scope, $location, personaService) {
     $scope.isActive = function(path) {
@@ -90,7 +92,7 @@ angular.module('classicaldirApp')
       };
 
       $http
-        .post('http://localhost:7878/listings', newListingData)
+        .post(BASEURL + '/listings', newListingData)
         .success(function(data) {
           $location.path('/listings/' + data.id);
         })
@@ -111,7 +113,7 @@ angular.module('classicaldirApp')
     };
 
     $http
-      .get('http://localhost:7878/listings/' + $routeParams.id)
+      .get(BASEURL + '/listings/' + $routeParams.id)
       .success(function(data) {
         $scope.listing = data;
         if (data.latitude && data.longitude) {
@@ -148,7 +150,7 @@ angular.module('classicaldirApp')
     $scope.monthText = 'January';
 
     $http
-      .get('http://localhost:7878/listings')
+      .get(BASEURL + '/listings')
       .success(function(data) {
         $scope.listings = data;
       });
