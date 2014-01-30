@@ -18,8 +18,10 @@ body {
 
 
 .listing-image {
-    height: 0;
-    padding-bottom: 25%;
+    margin-right: 20px;
+    width: 90px;
+    height: 90px;
+    border-radius: 3px;
     background-position: center;
     background-size: cover;
 }
