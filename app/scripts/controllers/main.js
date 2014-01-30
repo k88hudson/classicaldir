@@ -1,9 +1,7 @@
 'use strict';
 
-var BASEURL = 'http://c-directory-service.herokuapp.com';
-
 angular.module('classicaldirApp')
-  .controller('navigationController', function($scope, $location, personaService) {
+  .controller('navigationController', function($scope, $location, personaService, serviceConfig) {
     $scope.isActive = function(path) {
       return path === $location.path();
     };
@@ -92,7 +90,7 @@ angular.module('classicaldirApp')
       };
 
       $http
-        .post(BASEURL + '/listings', newListingData)
+        .post(serviceConfig.url + '/listings', newListingData)
         .success(function(data) {
           $location.path('/listings/' + data.id);
         })
@@ -103,7 +101,7 @@ angular.module('classicaldirApp')
 
   })
 
-  .controller('DetailsCtrl', function($scope, $http, $routeParams) {
+  .controller('DetailsCtrl', function($scope, $http, $routeParams, serviceConfig) {
     $scope.map = {
       center: {
         latitude: 43.653226,
@@ -113,7 +111,7 @@ angular.module('classicaldirApp')
     };
 
     $http
-      .get(BASEURL + '/listings/' + $routeParams.id)
+      .get(serviceConfig.url + '/listings/' + $routeParams.id)
       .success(function(data) {
         $scope.listing = data;
         if (data.latitude && data.longitude) {
@@ -126,7 +124,7 @@ angular.module('classicaldirApp')
       });
   })
 
-  .controller('MainCtrl', function($scope, $http) {
+  .controller('MainCtrl', function($scope, $http, serviceConfig) {
 
     // Filter
 
@@ -150,7 +148,7 @@ angular.module('classicaldirApp')
     $scope.monthText = 'January';
 
     $http
-      .get(BASEURL + '/listings')
+      .get(serviceConfig.url + '/listings')
       .success(function(data) {
         $scope.listings = data;
       });

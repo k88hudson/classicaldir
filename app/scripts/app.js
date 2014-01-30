@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('classicaldirApp', ['ngRoute', 'ui.bootstrap', 'google-maps'])
+  .constant('serviceConfig', {
+    url: 'http://c-directory-service.herokuapp.com'
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -43,8 +46,8 @@ angular.module('classicaldirApp', ['ngRoute', 'ui.bootstrap', 'google-maps'])
       }
     };
   })
-  .factory('personaService', ['$http', '$q', '$rootScope', '$location', '$window',
-    function personaService($http, $q, $rootScope, $location, $window) {
+  .factory('personaService', ['$http', '$q', '$rootScope', '$location', '$window', 'serviceConfig',
+    function personaService($http, $q, $rootScope, $location, $window, serviceConfig) {
 
       // Restore user state from local storage.
       $rootScope.user = $window.localStorage.user ? angular.fromJson($window.localStorage.user) : {};
@@ -74,7 +77,7 @@ angular.module('classicaldirApp', ['ngRoute', 'ui.bootstrap', 'google-maps'])
           var audience = window.location.origin;
 
           $http
-            .post('http://localhost:7878/auth', {
+            .post( serviceConfig.url + '/auth', {
               audience: audience,
               assertion: assertion
             })
